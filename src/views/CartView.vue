@@ -10,8 +10,8 @@ export default {
 </script>
 
 <template>
-    <main>
-        <h1>Shopping cart</h1>
+    <main class="cart-view">
+        <h1 class="title">Shopping cart</h1>
         <div class="cart-products">
             <ItemsTable />
         </div>
@@ -19,6 +19,10 @@ export default {
 </template>
 
 <style>
+.cart-view .title {
+  margin-bottom: 10px;
+}
+
 .cart-products {
     display: flex;
     flex-direction: column;

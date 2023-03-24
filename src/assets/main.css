@@ -43,7 +43,7 @@ a,
 }
 
 .btn-primary {
-  border: 1px solid #00bd7e;
+  border: none;
   background-color: #00bd7e;
   color: white;
 }
@@ -60,6 +60,14 @@ a,
 
 .btn-secondary:hover {
   background-color: #e3fdf5;
+}
+
+.btn-primary.red {
+  background-color: red;
+}
+
+.btn-primary.red:hover {
+  background-color: rgb(253, 100, 100);
 }
 
 @media (hover: hover) {

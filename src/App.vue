@@ -36,7 +36,7 @@ export default {
     </div>
   </header>
 
-  <RouterView @updateCartItemCount="updateCartItemCount"/>
+  <RouterView />
 </template>
 
 <style scoped>
@@ -80,7 +80,7 @@ main {
 nav .shopping-cart {
   padding: 3px 15px;
   border-radius: 5px;
-  background-color: #00bd7e;
+  background-color: var(--primary-color);
   color: white;
 }
 

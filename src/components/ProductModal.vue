@@ -1,5 +1,5 @@
 <script>
-import {saveSingleItemToCart, someItemInCart} from "../functions/CartStorageManagment.js"
+import {saveSingleItemToCart, someItemInCart, addQtyToItemInCart} from "../functions/CartStorageManagment.js"
 
 export default {
     data() {
@@ -10,10 +10,10 @@ export default {
     },
     methods: {
         saveToCart() {
-            if(someItemInCart){
+            if(!someItemInCart(this.product.id)){
                 saveSingleItemToCart(this.product, this.qty);
             } else {
-                addQtyToItem(this.product, this.qty)
+                addQtyToItem(this.product.id, this.qty)
             }
             this.$root.updateCartItemCount();
         }

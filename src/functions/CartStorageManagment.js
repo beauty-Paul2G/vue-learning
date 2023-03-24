@@ -9,8 +9,11 @@ function getItemsInCart(){
 
 function someItemInCart(itemId){
     let itemsInCart = JSON.parse(localStorage.getItem("cartItems"));
-
-    return itemsInCart.some(item => item.id === itemId)
+    if(itemsInCart){
+        return itemsInCart.some(item => item.id === itemId);
+    }else{
+        return false;
+    }
 }
 
 function saveSingleItemToCart(newItem, qty){
@@ -25,7 +28,7 @@ function saveSingleItemToCart(newItem, qty){
     console.log("Guardado en carrito");
 }
 
-function deleteItem(oldItemId){
+function deleteItemFromCart(oldItemId){
     let itemsInCart = JSON.parse(localStorage.getItem("cartItems"));
     if (itemsInCart){
         itemsInCart = itemsInCart.filter(item => item.id !== oldItemId);
@@ -34,7 +37,7 @@ function deleteItem(oldItemId){
     } 
 }
 
-function addQtyToItem(newItemId, qty){
+function addQtyToItemInCart(newItemId, qty){
     let itemsInCart = JSON.parse(localStorage.getItem("cartItems"));
     if (itemsInCart){
         let currentItemInCart = itemsInCart.find((item) => item.id === newItemId);
@@ -44,14 +47,14 @@ function addQtyToItem(newItemId, qty){
     } 
 }
 
-function updateItemQty(newItemId, qty){
+function updateItemQtyInCart(newItem){
     let itemsInCart = JSON.parse(localStorage.getItem("cartItems"));
     if (itemsInCart){
-        let currentItemInCart = itemsInCart.find((item) => item.id === newItemId);
-        currentItemInCart.qty =  qty;
+        let currentItemInCart = itemsInCart.find((item) => item.id === newItem.id);
+        currentItemInCart = newItem;
 
         localStorage.setItem("cartItems", JSON.stringify(itemsInCart));
     } 
 }
 
-export {getItemsInCart, someItemInCart, saveSingleItemToCart, deleteItem, addQtyToItem, updateItemQty}
+export {getItemsInCart, someItemInCart, saveSingleItemToCart, deleteItemFromCart, addQtyToItemInCart, updateItemQtyInCart}

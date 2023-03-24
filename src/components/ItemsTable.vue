@@ -1,5 +1,5 @@
 <script>
-import { getItemsInCart } from "../functions/CartStorageManagment.js";
+import { getItemsInCart, addQtyToItemInCart, deleteItemFromCart } from "../functions/CartStorageManagment.js";
 
 export default {
     data() {
@@ -20,10 +20,20 @@ export default {
             }
             return total;
         }
-    },
-    methods: {
-        updateItemQty(e, item){
-            console.log(e)
+    }, methods: {
+        updateItemQty(item){
+            if(event.target.id === "decrease"){
+                if(item.qty > 1)
+                    addQtyToItemInCart(item.id, -1);
+            } else if (event.target.id === "increase"){
+                addQtyToItemInCart(item.id, 1);
+            }
+            this.cartItems = getItemsInCart();
+        },
+        deleteItem(item){
+            deleteItemFromCart(item.id);
+            this.cartItems = getItemsInCart();
+            this.$root.updateCartItemCount();
         }
     }
 }
@@ -47,8 +57,11 @@ export default {
                 </tr>
                 <tr class="price">${{ item.price }}</tr>
                 <tr class="qty">
+                    <button class="button btn-primary red" id="delete" @click="deleteItem(item)">
+                        <i class="bi bi-trash3" />
+                    </button>
                     <button class="button btn-primary" id="decrease" @click="updateItemQty(item)">-</button>
-                    {{ item.qty }}
+                    <span class="quantity">{{ item.qty }}</span>
                     <button class="button btn-primary" id="increase" @click="updateItemQty(item)">+</button>
                 </tr>
                 <tr class="subtotal">${{ item.qty * item.price }}</tr>
@@ -89,11 +102,14 @@ export default {
     padding: 15px;
     display: flex;
     align-items: center;
-    gap: 20px;
 }
 
 .cart-table tr:not(tbody .item) {
     justify-content: center;
+}
+
+.cart-table tbody .item {
+    gap: 20px;
 }
 
 .cart-table .item {
@@ -112,6 +128,15 @@ export default {
 
 .cart-table .qty {
     width: 20%;
+}
+
+.cart-table #delete {
+    margin-right: 3px;
+}
+
+.cart-table .quantity {
+    text-align: center;
+    width: 30px;
 }
 
 .cart-table .subtotal {

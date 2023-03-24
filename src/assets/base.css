@@ -36,6 +36,10 @@
   --section-gap: 160px;
 }
 
+:root {
+  --primary-color: #00bd7e;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);
