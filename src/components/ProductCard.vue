@@ -7,6 +7,9 @@ export default {
             isModalOpen: false
         }
     },
+    components: {
+        ProductModal
+    },
     props: {
         product: Object
     },
@@ -14,9 +17,6 @@ export default {
         toggleModal(){
             this.isModalOpen = !this.isModalOpen ;
         }
-    },
-    components: {
-        ProductModal
     }
 }
 </script>
@@ -27,7 +27,7 @@ export default {
         <h3>{{ product.title }}</h3>
         <span>${{ product.price }}</span>
     </div>
-    <ProductModal v-if="isModalOpen" :product="product" :toggleModal="toggleModal"/>
+    <ProductModal v-if="isModalOpen"  />
 
 </template>
 
@@ -56,6 +56,7 @@ export default {
     aspect-ratio: 1;
     object-fit: cover;
     pointer-events: none;
+    border-radius: 3px;
 }
 
 .product-card h3 {

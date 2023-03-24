@@ -8,13 +8,13 @@ export default {
       products: null
     }
   },
-  components: {
-    ProductCard
-  },
   mounted() {
     this.importProducts().then((data) => {
       this.products = data;
     });
+  },
+  components: {
+    ProductCard
   },
   methods: {
     async importProducts() {
@@ -31,7 +31,7 @@ export default {
     <h1>Products</h1>
     <div class="products">
       <template v-if="products" v-for="product in products" :key="product.id">
-        <ProductCard :product="product" ref="child"></ProductCard>
+        <ProductCard :product="product"/>
       </template>
     </div>
   </main>

@@ -1,8 +1,22 @@
 <script>
+import {saveSingleItemToCart, someItemInCart} from "../functions/CartStorageManagment.js"
+
 export default {
-    props: {
-        product: Object,
-        toggleModal: Function
+    data() {
+        return {
+            product: this.$parent.product,
+            qty: 1
+        }
+    },
+    methods: {
+        saveToCart() {
+            if(someItemInCart){
+                saveSingleItemToCart(this.product, this.qty);
+            } else {
+                addQtyToItem(this.product, this.qty)
+            }
+            this.$root.updateCartItemCount();
+        }
     }
 }
 </script>
@@ -10,15 +24,20 @@ export default {
 <template>
     <div class="modal-container">
         <div class="modal">
+            <button class="btn-close"  @click="$parent.toggleModal">
+                <i class="bi bi-x-lg" style="font-size: 18px;">
+                </i></button>
             <img :src="product.images[0]">
             <h2>{{ product.title }}</h2>
             <h3>${{ product.price }}</h3>
             <p>{{ product.description }}</p>
             <div class="buttons">
-                <button class="button btn-secondary" @click="toggleModal">Cancelar</button>
-                <button class="button btn-primary" >
+                <span>Quantity: </span>
+                <input type="number" class="spinner" min="1" v-model="qty">
+                <button class="button btn-primary" @click="saveToCart">
                     <i class="bi-cart4"></i>
-                    Agregar</button>
+                    Add
+                </button>
             </div>
         </div>
     </div>
@@ -41,50 +60,38 @@ export default {
 
 .modal {
     background-color: white;
-    padding: 30px;
-    width: 300px;
+    padding: 40px 30px;
+    width: 400px;
     max-width: 100%;
     border: 1px solid #0002;
     border-radius: 5px;
 }
 
-.buttons{
-    display: flex;
+.modal img {
     width: 100%;
-    justify-content: flex-end;
-    gap: 5px;
-    margin-top: 20px;
+    border-radius: 5px;
 }
 
-.button{
+.modal .btn-close {
     cursor: pointer;
-    padding: 0.5rem;
-    transition: all ease 250ms;
-    border-radius: 5px;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    z-index: 2;
 }
 
-.btn-primary{
-    border: 1px solid #00bd7e;
-    background-color:  #00bd7e;
-    color: white;
+.modal .buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+  width: 100%;
+  gap: 5px;
+  margin-top: 20px;
 }
 
-.btn-primary:hover {
-    background-color: #31d8a0;
-}
-
-.btn-secondary{
-    border: 1px solid #00bd7e;
-    background-color:  white;
-    color: #00bd7e;
-}
-
-.btn-secondary:hover {
-    background-color: #e3fdf5;
-}
-
-img {
-    width: 100%;
-    border-radius: 5px;
+.modal .spinner {
+    width: 100px;
 }
 </style>

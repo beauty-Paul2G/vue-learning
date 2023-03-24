@@ -35,6 +35,33 @@ a,
   border-radius: 24px;
 }
 
+.button {
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: all ease 250ms;
+  border-radius: 5px;
+}
+
+.btn-primary {
+  border: 1px solid #00bd7e;
+  background-color: #00bd7e;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #31d8a0;
+}
+
+.btn-secondary {
+  border: 1px solid #00bd7e;
+  background-color: white;
+  color: #00bd7e;
+}
+
+.btn-secondary:hover {
+  background-color: #e3fdf5;
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
