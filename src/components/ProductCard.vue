@@ -15,7 +15,7 @@ export default {
     },
     methods: {
         toggleModal(){
-            this.isModalOpen = !this.isModalOpen ;
+            this.isModalOpen = !this.isModalOpen;
         }
     }
 }

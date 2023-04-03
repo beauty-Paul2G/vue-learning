@@ -1,32 +1,39 @@
 <script>
-import {saveSingleItemToCart, someItemInCart, addQtyToItemInCart} from "../functions/CartStorageManagment.js"
+import Modal from "./Modal.vue";
+import Toast from "./Toast.vue";
+import { saveSingleItemToCart, someItemInCart, addQtyToItemInCart } from "../functions/CartStorageManagment.js"
 
 export default {
     data() {
         return {
             product: this.$parent.product,
-            qty: 1
+            qty: 1,
+            toastDisplayed: []
         }
+    },
+    components: {
+        Modal,
+        Toast
     },
     methods: {
         saveToCart() {
-            if(!someItemInCart(this.product.id)){
+            if (!someItemInCart(this.product.id)) {
                 saveSingleItemToCart(this.product, this.qty);
             } else {
-                addQtyToItem(this.product.id, this.qty)
+                addQtyToItemInCart(this.product.id, this.qty)
             }
             this.$root.updateCartItemCount();
+
+            this.toastDisplayed.push(true);
+            setTimeout(() => { this.toastDisplayed.shift() }, 2000);
         }
     }
 }
 </script>
 
 <template>
-    <div class="modal-container">
-        <div class="modal">
-            <button class="btn-close"  @click="$parent.toggleModal">
-                <i class="bi bi-x-lg" style="font-size: 18px;">
-                </i></button>
+    <Modal>
+        <div class="product-modal-content">
             <img :src="product.images[0]">
             <h2>{{ product.title }}</h2>
             <h3>${{ product.price }}</h3>
@@ -35,63 +42,53 @@ export default {
                 <span>Quantity: </span>
                 <input type="number" class="spinner" min="1" v-model="qty">
                 <button class="button btn-primary" @click="saveToCart">
-                    <i class="bi-cart4"></i>
-                    Add
+                    <i class="bi-cart4" /> Add
                 </button>
             </div>
         </div>
-    </div>
+    </Modal>
+    <TransitionGroup name="entrance" tag="ul" class="toast-list">
+        <li v-for="toast in toastDisplayed" :key="toast">
+            <Toast >{{ "Item added to cart" }}</Toast>
+        </li>
+    </TransitionGroup>
 </template>
 
 <style>
-.modal-container {
-    width: 100vw;
-    height: 100vh;
-    background-color: #0003;
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 100;
-
+.product-modal-content .buttons {
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal {
-    background-color: white;
-    padding: 40px 30px;
-    width: 400px;
-    max-width: 100%;
-    border: 1px solid #0002;
-    border-radius: 5px;
-}
-
-.modal img {
+    justify-content: flex-end;
+    align-content: center;
     width: 100%;
-    border-radius: 5px;
+    gap: 5px;
+    margin-top: 20px;
 }
 
-.modal .btn-close {
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    z-index: 2;
-}
-
-.modal .buttons {
-  display: flex;
-  justify-content: flex-end;
-  align-content: center;
-  width: 100%;
-  gap: 5px;
-  margin-top: 20px;
-}
-
-.modal .spinner {
+.product-modal-content .spinner {
     width: 100px;
+}
+
+.entrance-move,
+.entrance-enter-active,
+.entrance-leave-active  {
+    transition: all 300ms ease-out;
+}
+.entrance-enter-from,
+.entrance-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
+}
+
+.toast-list {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    z-index: 200;
+
+    list-style: none;
+}
+
+.toast-list li {
+    margin-top: 5px;
 }
 </style>

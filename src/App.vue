@@ -1,11 +1,13 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router';
+import LoginModal from "./components/LoginModal.vue"
 import {getItemsInCart} from "./functions/CartStorageManagment.js";
 
 export default {
   data() {
     return {
-      cartItemsCount: 0
+      cartItemsCount: 0,
+      isLoginModalOpen: false
     }
   },
   mounted() {
@@ -14,9 +16,15 @@ export default {
       this.cartItemsCount = cartItems.length;
     }
   },
+  components: {
+    LoginModal
+  },
   methods: {
     updateCartItemCount(){
       this.cartItemsCount = getItemsInCart().length;
+    },
+    toggleModal(){
+      this.isLoginModalOpen = !this.isLoginModalOpen
     }
   }
 }
@@ -32,10 +40,13 @@ export default {
           <i class="bi bi-cart4" style="padding-right: 3px;"></i>
           Cart {{ cartItemsCount === 0 ? "" : `(${cartItemsCount})` }}
         </RouterLink>
+        <button class="login-button" @click="toggleModal()">
+          <i class="bi bi-box-arrow-in-right" style="padding-right: 3px;"></i>
+        </button>
       </nav>
     </div>
   </header>
-
+  <LoginModal v-if="isLoginModalOpen"/>
   <RouterView />
 </template>
 
@@ -86,5 +97,21 @@ nav .shopping-cart {
 
 nav .shopping-cart:hover {
   background-color: #31d8a0;
+}
+
+.login-button {
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid transparent;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  font-size: 15px;
+  transition: 250ms all ease;
+}
+.login-button:hover {
+  background-color: transparent;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
 }
 </style>
